@@ -1,0 +1,69 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny all access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Test connection document
+    match /test/connection {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // User profile document
+    match /users/{userId}/profile/{docId} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId) &&
+        request.resource.data.userId == userId;
+      allow delete: if isOwner(userId);
+    }
+
+    // User Desktop settings
+    match /users/{userId}/settings/{docId} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId) &&
+        request.resource.data.userId == userId;
+      allow delete: if isOwner(userId);
+    }
+
+    // User Desktop icon layout
+    match /users/{userId}/desktop/{docId} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId) &&
+        request.resource.data.userId == userId;
+      allow delete: if isOwner(userId);
+    }
+
+    // User Virtual Files
+    match /users/{userId}/files/{fileId} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId) &&
+        request.resource.data.userId == userId;
+      allow delete: if isOwner(userId);
+    }
+
+    // User Calendar Events
+    match /users/{userId}/calendar/{eventId} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId) &&
+        request.resource.data.userId == userId;
+      allow delete: if isOwner(userId);
+    }
+  }
+}

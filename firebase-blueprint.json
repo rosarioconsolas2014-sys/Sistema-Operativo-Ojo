@@ -1,0 +1,115 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["userId", "email"]
+    },
+    "UserSettings": {
+      "title": "UserSettings",
+      "description": "Desktop OS appearance, sound, network, and personalization preferences",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "theme": { "type": "string", "enum": ["light", "dark"] },
+        "accentColor": { "type": "string" },
+        "windowTransparency": { "type": "boolean" },
+        "acrylicIntensity": { "type": "number" },
+        "iconSize": { "type": "string", "enum": ["small", "medium", "large"] },
+        "showIconLabels": { "type": "boolean" },
+        "autoArrangeIcons": { "type": "boolean" },
+        "taskbarAlignment": { "type": "string", "enum": ["center", "left"] },
+        "showSearchInTaskbar": { "type": "boolean" },
+        "showWidgets": { "type": "boolean" },
+        "soundVolume": { "type": "number" },
+        "brightness": { "type": "number" },
+        "wifiEnabled": { "type": "boolean" },
+        "bluetoothEnabled": { "type": "boolean" },
+        "airplaneMode": { "type": "boolean" },
+        "nightLight": { "type": "boolean" },
+        "batterySaver": { "type": "boolean" },
+        "doNotDisturb": { "type": "boolean" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["userId"]
+    },
+    "DesktopLayout": {
+      "title": "DesktopLayout",
+      "description": "Desktop icon positions and sorting order",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "desktopSortBy": { "type": "string", "enum": ["name", "type", "date"] },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["userId"]
+    },
+    "VirtualFile": {
+      "title": "VirtualFile",
+      "description": "Virtual file or folder belonging to user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string", "enum": ["file", "folder"] },
+        "parentId": { "type": "string" },
+        "path": { "type": "string" },
+        "content": { "type": "string" },
+        "storageUrl": { "type": "string" },
+        "extension": { "type": "string" },
+        "size": { "type": "number" },
+        "isDeleted": { "type": "boolean" },
+        "isSystem": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "name", "type", "path"]
+    },
+    "CalendarEvent": {
+      "title": "CalendarEvent",
+      "description": "User calendar event record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "date": { "type": "string" },
+        "time": { "type": "string" },
+        "color": { "type": "string" },
+        "description": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "title", "date", "time", "color"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/profile/{docId}": {
+      "schema": "UserProfile",
+      "description": "User profile information"
+    },
+    "/users/{userId}/settings/{docId}": {
+      "schema": "UserSettings",
+      "description": "User desktop personalization and system configuration"
+    },
+    "/users/{userId}/desktop/{docId}": {
+      "schema": "DesktopLayout",
+      "description": "Desktop icon arrangement and sorting"
+    },
+    "/users/{userId}/files/{fileId}": {
+      "schema": "VirtualFile",
+      "description": "User virtual file system items"
+    },
+    "/users/{userId}/calendar/{eventId}": {
+      "schema": "CalendarEvent",
+      "description": "User calendar events"
+    }
+  }
+}

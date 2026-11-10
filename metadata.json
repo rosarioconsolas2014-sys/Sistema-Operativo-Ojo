@@ -1,0 +1,8 @@
+{
+  "name": "Windows Desktop Simulator",
+  "description": "Simulador interactivo de escritorio Windows 11 con sistema de ventanas, explorador de archivos, bloc de notas, calculadora, navegador, paint, terminal y personalización.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
